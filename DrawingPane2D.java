@@ -124,28 +124,7 @@ public class DrawingPane2D extends JFrame{
 		timer.start();
 	}
 
-	public Point2D.Double translatePoint(Point2D.Double p){
-		resultVector[0]=0;
-		resultVector[1]=0;
-		resultVector[2]=0;
-		resultVector[3]=0;
-
-
-		tempVector[0] = p.getX();
-		tempVector[1] = p.getY();
-		tempVector[2] = tempVector[0] == 0 ? 0 : p.getX();
-		tempVector[3] = tempVector[1] == 0 ? 0 : p.getY();
-
-		for(int i = 0; i < tempVector.length; i++){
-			for(int j =0; j < tempVector.length; j++){
-				resultVector[i] += transformationMatrix[i][j]*tempVector[j];
-			}
-		}
-
-		return new Point2D.Double(resultVector[0],resultVector[1]);
-	}
-
-	public Point2D.Double translatePoint(double x, double y){
+	private void prepareVectors(double x,double y){
 		resultVector[0]=0;
 		resultVector[1]=0;
 		resultVector[2]=0;
@@ -155,8 +134,18 @@ public class DrawingPane2D extends JFrame{
 		tempVector[0] = x;
 		tempVector[1] = y;
 		tempVector[2] = tempVector[0] == 0 ? 0 : x;
+	}
+
+	public Point2D.Double translatePoint(Point2D.Double p){
+		return translatePoint(p.getX(),p.getY());
+	}
+
+	public Point2D.Double translatePoint(double x, double y){
+		//Clear old values and set up new vectors
+		prepareVectors(x,y);
 
 		for(int i = 0; i < tempVector.length; i++){
+			//We need this bit to deal with shifting points on the axes
 			tempVector[2] = tempVector[i] == 0 ? 0 : tempVector[i];
 			for(int j =0; j < tempVector.length; j++){
 				resultVector[i] += transformationMatrix[i][j]*tempVector[j];
