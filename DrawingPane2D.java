@@ -33,7 +33,7 @@ public class DrawingPane2D extends JFrame{
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	DrawingPane2D dp = new DrawingPane2D(10,10);
+            	DrawingPane2D dp = new DrawingPane2D(100,100);
             }
         });
 	}
@@ -45,13 +45,14 @@ public class DrawingPane2D extends JFrame{
 	final int shiftY = 0;
 
 	double [][] transformationMatrix = {
-								{1,0,shiftX},
-								{0,1,shiftY},
-								{0,0,1}
+								{1,0,shiftX,defaultWidth/2},
+								{0,1,shiftY,defaultHeight/2},
+								{0,0,1,0},
+								{0,0,0,1}
 								};
 
-	double [] tempVector = {0,0,1};
-	double [] resultVector = {0,0,1};
+	double [] tempVector = {0,0,1,1};
+	double [] resultVector = {0,0,1,1};
 
 	final BufferedImage graphImage =  new BufferedImage(defaultWidth,defaultHeight,BufferedImage.TYPE_INT_ARGB);
 	/**
@@ -64,19 +65,16 @@ public class DrawingPane2D extends JFrame{
 		//Scale everything to stay within the size of the pane.
 		if(width < defaultWidth){
 			transformationMatrix[0][0] = defaultWidth/width;
-			transformationMatrix[0][2] = transformationMatrix[0][0];
 		}else if(width > defaultWidth){
 			transformationMatrix[0][0] = width/defaultWidth;
-			transformationMatrix[0][2] = transformationMatrix[0][0];
 		}
 		if(height < defaultHeight){
 			transformationMatrix[1][1] = defaultHeight/height;
-			transformationMatrix[1][2] = transformationMatrix[1][1];
 		}else if(height > defaultHeight){
 			transformationMatrix[1][1] = height/defaultHeight;
-			transformationMatrix[1][2] = transformationMatrix[1][1];
 		}
-		
+		transformationMatrix[0][2] = transformationMatrix[0][0];
+		transformationMatrix[1][2] = transformationMatrix[1][1];
 		initialize();
 	}
 
@@ -130,36 +128,47 @@ public class DrawingPane2D extends JFrame{
 		resultVector[0]=0;
 		resultVector[1]=0;
 		resultVector[2]=0;
+		resultVector[3]=0;
+
 
 		tempVector[0] = p.getX();
 		tempVector[1] = p.getY();
+		tempVector[2] = tempVector[0] == 0 ? 0 : p.getX();
+		tempVector[3] = tempVector[1] == 0 ? 0 : p.getY();
 
-		for(int i = 0; i < 3; i++){
-			for(int j =0; j < 3; i++){
-				resultVector[j] += transformationMatrix[i][j]*tempVector[j];
+		for(int i = 0; i < tempVector.length; i++){
+			for(int j =0; j < tempVector.length; j++){
+				resultVector[i] += transformationMatrix[i][j]*tempVector[j];
 			}
 		}
 
-		return new Point2D.Double(resultVector[0]+defaultWidth/2,resultVector[1]+defaultHeight/2);
+		return new Point2D.Double(resultVector[0],resultVector[1]);
 	}
 
 	public Point2D.Double translatePoint(double x, double y){
 		resultVector[0]=0;
 		resultVector[1]=0;
 		resultVector[2]=0;
-	
+		resultVector[3]=0;
+
+
 		tempVector[0] = x;
 		tempVector[1] = y;
-		tempVector[2] = 1;
+		tempVector[2] = tempVector[0] == 0 ? 0 : x;
 
 		for(int i = 0; i < tempVector.length; i++){
+			if(tempVector[i]==0){
+				tempVector[2] = 0;
+			}else{
+				tempVector[2] = tempVector[i];
+			}
 			for(int j =0; j < tempVector.length; j++){
 				resultVector[i] += transformationMatrix[i][j]*tempVector[j];
 			}
 
 		}
 
-		return new Point2D.Double(resultVector[0]+defaultWidth/2,resultVector[1]+defaultHeight/2);
+		return new Point2D.Double(resultVector[0],resultVector[1]);
 	}
 
 	
