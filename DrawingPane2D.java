@@ -157,11 +157,7 @@ public class DrawingPane2D extends JFrame{
 		tempVector[2] = tempVector[0] == 0 ? 0 : x;
 
 		for(int i = 0; i < tempVector.length; i++){
-			if(tempVector[i]==0){
-				tempVector[2] = 0;
-			}else{
-				tempVector[2] = tempVector[i];
-			}
+			tempVector[2] = tempVector[i] == 0 ? 0 : tempVector[i];
 			for(int j =0; j < tempVector.length; j++){
 				resultVector[i] += transformationMatrix[i][j]*tempVector[j];
 			}
