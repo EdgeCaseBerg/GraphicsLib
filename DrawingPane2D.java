@@ -30,7 +30,13 @@ import javax.swing.Timer;
 */
 public class DrawingPane2D extends JFrame{
 	
-
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	DrawingPane2D dp = new DrawingPane2D(10,10);
+            }
+        });
+	}
 
 	final int defaultWidth = 640;
 	final int defaultHeight = 640;
@@ -58,17 +64,19 @@ public class DrawingPane2D extends JFrame{
 		//Scale everything to stay within the size of the pane.
 		if(width < defaultWidth){
 			transformationMatrix[0][0] = defaultWidth/width;
+			transformationMatrix[0][2] = transformationMatrix[0][0];
 		}else if(width > defaultWidth){
 			transformationMatrix[0][0] = width/defaultWidth;
+			transformationMatrix[0][2] = transformationMatrix[0][0];
 		}
 		if(height < defaultHeight){
 			transformationMatrix[1][1] = defaultHeight/height;
+			transformationMatrix[1][2] = transformationMatrix[1][1];
 		}else if(height > defaultHeight){
 			transformationMatrix[1][1] = height/defaultHeight;
+			transformationMatrix[1][2] = transformationMatrix[1][1];
 		}
-		//Figure out how much each 'tick' would be
-		transformationMatrix[0][2] = defaultWidth/transformationMatrix[0][0];
-		transformationMatrix[1][2] = defaultHeight/transformationMatrix[1][1];
+		
 		initialize();
 	}
 
@@ -154,13 +162,7 @@ public class DrawingPane2D extends JFrame{
 		return new Point2D.Double(resultVector[0]+defaultWidth/2,resultVector[1]+defaultHeight/2);
 	}
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	DrawingPane2D dp = new DrawingPane2D(10,10);
-            }
-        });
-	}
+	
 
 	public class Graph extends JPanel{
 		
