@@ -16,9 +16,12 @@ import java.awt.BasicStroke;
 import java.awt.RenderingHints;
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
+import java.awt.Component;
 
 import java.awt.event.*;
 import javax.swing.Timer;
+
+import java.util.ArrayList;
 
 /**
 *@author Ethan Eldridge <ejayeldridge @ gmail.com>
@@ -29,6 +32,12 @@ import javax.swing.Timer;
 * Theme music for this project: http://endlessvideo.com/watch?v=t2ZRy71vivk
 */
 public class DrawingPane2D extends JFrame{
+
+	/**
+	*A list of things to be drawn. Until I can think of something speedier, we'll use an arraylist
+	*/
+	ArrayList<Component> thingsToDraw = new ArrayList<Component>();
+
 	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -38,21 +47,29 @@ public class DrawingPane2D extends JFrame{
         });
 	}
 
+	/**
+	*The actual width of the drawing panel
+	*/
 	final int defaultWidth = 640;
+	/**
+	*The actual height of the drawing panel
+	*/
 	final int defaultHeight = 640;
 
-	final int shiftX = 0;
-	final int shiftY = 0;
-
+	/**
+	*The transformation matrix to change user defined coordinate system to the screen coordinates
+	*/
 	double [][] transformationMatrix = {
-								{1,0,shiftX,defaultWidth/2},
-								{0,1,shiftY,defaultHeight/2},
+								{1,0,0,defaultWidth/2},
+								{0,1,0,defaultHeight/2},
 								{0,0,1,0},
 								{0,0,0,1}
 								};
-
+	/**
+	*Pre-Allocating storage for a vector to store points to be translated
+	*/
 	double [] tempVector = {0,0,1,1};
-	double [] resultVector = {0,0,1,1};
+
 
 	final BufferedImage graphImage =  new BufferedImage(defaultWidth,defaultHeight,BufferedImage.TYPE_INT_ARGB);
 	/**
@@ -130,12 +147,6 @@ public class DrawingPane2D extends JFrame{
 	*@param y The y coordinate that will be placed into the temporary vector
 	*/
 	private void prepareVectors(double x,double y){
-		//Clear the resultant so we don't get bad results
-		resultVector[0]=0;
-		resultVector[1]=0;
-		resultVector[2]=0;
-		resultVector[3]=0;
-
 		tempVector[0] = x;
 		tempVector[1] = y;
 		//We do this because the first coordiante we'll check is x and we need
@@ -166,12 +177,12 @@ public class DrawingPane2D extends JFrame{
 			//We need this bit to deal with shifting points on the axes
 			tempVector[2] = tempVector[i] == 0 ? 0 : tempVector[i];
 			for(int j =0; j < tempVector.length; j++){
-				resultVector[i] += transformationMatrix[i][j]*tempVector[j];
+				tempVector[i] += transformationMatrix[i][j]*tempVector[j];
 			}
 
 		}
 
-		return new Point2D.Double(resultVector[0],resultVector[1]);
+		return new Point2D.Double(tempVector[0],tempVector[1]);
 	}
 
 	

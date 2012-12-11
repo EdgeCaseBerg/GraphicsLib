@@ -3,10 +3,9 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.*;
 import javax.swing.*;
-import java.util.Random;
-import java.util.ArrayList;
 
-public class eLine2D{
+
+public class eLine2D extends Component{
 	private final Color color;
 	private final BasicStroke width;
 	Line2D.Double line;
