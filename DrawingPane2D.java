@@ -32,7 +32,7 @@ public class DrawingPane2D extends JFrame{
 	
 
 
-	final int defaultWidth = 480;
+	final int defaultWidth = 640;
 	final int defaultHeight = 640;
 
 	final int shiftX = defaultWidth/2;
@@ -75,10 +75,10 @@ public class DrawingPane2D extends JFrame{
 	*/
 	protected void initialize(){
 		
-		setPreferredSize(new Dimension(defaultHeight,defaultHeight));
+		setPreferredSize(new Dimension(defaultWidth,defaultHeight));
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(new Dimension(defaultHeight,defaultWidth));
+		setSize(new Dimension(defaultWidth,defaultHeight));
 	
 		final Graph graph = new Graph();
 		
@@ -91,7 +91,7 @@ public class DrawingPane2D extends JFrame{
 		final RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING,
             											 RenderingHints.VALUE_ANTIALIAS_ON);
 
-		final BasicStroke stroke = new BasicStroke(6);
+		final BasicStroke stroke = new BasicStroke(12);
 
 		ActionListener al = new ActionListener(){
 			public void actionPerformed(ActionEvent ae){
@@ -117,6 +117,9 @@ public class DrawingPane2D extends JFrame{
 	}
 
 	public Point2D.Double translatePoint(Point2D.Double p){
+		resultVector[0]=0;
+		resultVector[1]=0;
+		resultVector[2]=0;
 
 		tempVector[0] = p.getX();
 		tempVector[1] = p.getY();
@@ -137,11 +140,11 @@ public class DrawingPane2D extends JFrame{
 	
 		tempVector[0] = x;
 		tempVector[1] = y;
+		tempVector[2] = 1;
 
 		for(int i = 0; i < tempVector.length; i++){
 			for(int j =0; j < tempVector.length; j++){
 				resultVector[i] += transformationMatrix[i][j]*tempVector[j];
-				System.out.println("RESULT j" + resultVector[j]);
 			}
 
 		}
@@ -165,8 +168,8 @@ public class DrawingPane2D extends JFrame{
 		Line2D.Double [] axis = new Line2D.Double[2];
 
 		public Graph(){
-			axis[0] = new Line2D.Double(translatePoint(0,-defaultHeight),translatePoint(0,defaultHeight));
-			axis[1] = new Line2D.Double(translatePoint(-defaultWidth,0), translatePoint(defaultWidth,0));
+			axis[0] = new Line2D.Double(translatePoint(0,-defaultHeight/2),translatePoint(0,defaultHeight/2));
+			axis[1] = new Line2D.Double(translatePoint(-defaultWidth/2,0), translatePoint(defaultWidth/2,0));
 			System.out.println(axis[0].getX1() + " " + axis[0].getY1() + " " + axis[0].getX2() + " " + axis[0].getY2());
 			System.out.println(axis[1].getX1() + " " + axis[1].getY1() + " " + axis[1].getX2() + " " + axis[1].getY2());
 			setBorder(BorderFactory.createLineBorder(Color.black));
@@ -182,8 +185,8 @@ public class DrawingPane2D extends JFrame{
 
 			g2.setColor(color);
 			g2.fillRect(0,0,defaultWidth,defaultHeight);
-			
-			g2.setColor(new Color(54,24,4,64));
+			g2.setStroke(new BasicStroke(4));
+			g2.setColor(new Color(0,0,0,255));
 			//Draw the Axis
 			for(int i = 0; i < 2; i++){
 				g2.draw(axis[i]);
