@@ -25,8 +25,8 @@ import javax.swing.Timer;
 *@version 0.0
 *@since 2012-12-11
 *
-* Defines a Cartesion 2D Space to write on
-* 
+* Defines a Cartesion 2D Space to write on.
+* Theme music for this project: http://endlessvideo.com/watch?v=t2ZRy71vivk
 */
 public class DrawingPane2D extends JFrame{
 	
@@ -35,8 +35,8 @@ public class DrawingPane2D extends JFrame{
 	final int defaultWidth = 640;
 	final int defaultHeight = 640;
 
-	final int shiftX = defaultWidth/2;
-	final int shiftY = defaultHeight/2;
+	final int shiftX = 0;
+	final int shiftY = 0;
 
 	double [][] transformationMatrix = {
 								{1,0,shiftX},
@@ -58,7 +58,6 @@ public class DrawingPane2D extends JFrame{
 		//Scale everything to stay within the size of the pane.
 		if(width < defaultWidth){
 			transformationMatrix[0][0] = defaultWidth/width;
-
 		}else if(width > defaultWidth){
 			transformationMatrix[0][0] = width/defaultWidth;
 		}
@@ -67,6 +66,9 @@ public class DrawingPane2D extends JFrame{
 		}else if(height > defaultHeight){
 			transformationMatrix[1][1] = height/defaultHeight;
 		}
+		//Figure out how much each 'tick' would be
+		transformationMatrix[0][2] = defaultWidth/transformationMatrix[0][0];
+		transformationMatrix[1][2] = defaultHeight/transformationMatrix[1][1];
 		initialize();
 	}
 
@@ -130,7 +132,7 @@ public class DrawingPane2D extends JFrame{
 			}
 		}
 
-		return new Point2D.Double(resultVector[0],resultVector[1]);
+		return new Point2D.Double(resultVector[0]+defaultWidth/2,resultVector[1]+defaultHeight/2);
 	}
 
 	public Point2D.Double translatePoint(double x, double y){
@@ -149,13 +151,13 @@ public class DrawingPane2D extends JFrame{
 
 		}
 
-		return new Point2D.Double(resultVector[0],resultVector[1]);
+		return new Point2D.Double(resultVector[0]+defaultWidth/2,resultVector[1]+defaultHeight/2);
 	}
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	DrawingPane2D dp = new DrawingPane2D(480,640);
+            	DrawingPane2D dp = new DrawingPane2D(10,10);
             }
         });
 	}
