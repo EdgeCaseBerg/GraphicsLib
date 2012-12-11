@@ -124,15 +124,22 @@ public class DrawingPane2D extends JFrame{
 		timer.start();
 	}
 
+	/**
+	*Clears the resultant vector and readys the point vector for the coordinate x,y
+	*@param x The x coordinate that will be placed into the temporary vector
+	*@param y The y coordinate that will be placed into the temporary vector
+	*/
 	private void prepareVectors(double x,double y){
+		//Clear the resultant so we don't get bad results
 		resultVector[0]=0;
 		resultVector[1]=0;
 		resultVector[2]=0;
 		resultVector[3]=0;
 
-
 		tempVector[0] = x;
 		tempVector[1] = y;
+		//We do this because the first coordiante we'll check is x and we need
+		//It to reflect the wonderful exceptions along the axes
 		tempVector[2] = tempVector[0] == 0 ? 0 : x;
 	}
 
@@ -179,8 +186,6 @@ public class DrawingPane2D extends JFrame{
 		public Graph(){
 			axis[0] = new Line2D.Double(translatePoint(0,-defaultHeight/2),translatePoint(0,defaultHeight/2));
 			axis[1] = new Line2D.Double(translatePoint(-defaultWidth/2,0), translatePoint(defaultWidth/2,0));
-			System.out.println(axis[0].getX1() + " " + axis[0].getY1() + " " + axis[0].getX2() + " " + axis[0].getY2());
-			System.out.println(axis[1].getX1() + " " + axis[1].getY1() + " " + axis[1].getX2() + " " + axis[1].getY2());
 			setBorder(BorderFactory.createLineBorder(Color.black));
 		}
 
