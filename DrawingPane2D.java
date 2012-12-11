@@ -17,7 +17,6 @@ import java.awt.RenderingHints;
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.awt.Component;
-
 import java.awt.event.*;
 import javax.swing.Timer;
 
@@ -70,6 +69,10 @@ public class DrawingPane2D extends JFrame{
 	*/
 	double [] tempVector = {0,0,1,1};
 
+	/**
+	*Pre-Allocated storage for a vector to store resultant vectors of translated points
+	*/
+	double [] resultVector = {0,0,1,1};
 
 	final BufferedImage graphImage =  new BufferedImage(defaultWidth,defaultHeight,BufferedImage.TYPE_INT_ARGB);
 	/**
@@ -147,6 +150,12 @@ public class DrawingPane2D extends JFrame{
 	*@param y The y coordinate that will be placed into the temporary vector
 	*/
 	private void prepareVectors(double x,double y){
+		//Clear the resultant so we don't get bad results
+		resultVector[0]=0;
+		resultVector[1]=0;
+		resultVector[2]=0;
+		resultVector[3]=0;
+
 		tempVector[0] = x;
 		tempVector[1] = y;
 		//We do this because the first coordiante we'll check is x and we need
@@ -177,12 +186,12 @@ public class DrawingPane2D extends JFrame{
 			//We need this bit to deal with shifting points on the axes
 			tempVector[2] = tempVector[i] == 0 ? 0 : tempVector[i];
 			for(int j =0; j < tempVector.length; j++){
-				tempVector[i] += transformationMatrix[i][j]*tempVector[j];
+				resultVector[i] += transformationMatrix[i][j]*tempVector[j];
 			}
 
 		}
 
-		return new Point2D.Double(tempVector[0],tempVector[1]);
+		return new Point2D.Double(resultVector[0],resultVector[1]);
 	}
 
 	
