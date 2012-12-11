@@ -136,11 +136,22 @@ public class DrawingPane2D extends JFrame{
 		tempVector[2] = tempVector[0] == 0 ? 0 : x;
 	}
 
-	public Point2D.Double translatePoint(Point2D.Double p){
+	/**
+	*Translates an x,y coordinate in the space of the user's choosing into the pixel system of the form
+	*@param p The point to  be translated to the form coordinate system.
+	*@return a Point2D.Double type of the resulting point in the pixel system.
+	*/
+	protected Point2D.Double translatePoint(Point2D.Double p){
 		return translatePoint(p.getX(),p.getY());
 	}
 
-	public Point2D.Double translatePoint(double x, double y){
+	/**
+	*Translates an x,y coordinate in the space of the user's choosing into the form coordinate system.
+	*@param x The x coordinate to be translated
+	*@param y the y coordinate to be translated
+	*@return a Point2D.Double type of the resulting point in the form coordinate system.
+	*/
+	protected Point2D.Double translatePoint(double x, double y){
 		//Clear old values and set up new vectors
 		prepareVectors(x,y);
 
