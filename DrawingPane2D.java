@@ -33,6 +33,11 @@ import java.util.ArrayList;
 public class DrawingPane2D extends JFrame{
 
 	/**
+	*Constant for refresh rate of the drawing pane.
+	*/
+	final static int REFRESH_RATE = 25;
+
+	/**
 	*A list of things to be drawn. Until I can think of something speedier, we'll use an arraylist
 	*/
 	ArrayList<Component> thingsToDraw = new ArrayList<Component>();
@@ -42,6 +47,7 @@ public class DrawingPane2D extends JFrame{
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
             	DrawingPane2D dp = new DrawingPane2D(100,100);
+            	dp.createLine(new ELine2D(0,76,45,45));
             }
         });
 	}
@@ -74,7 +80,33 @@ public class DrawingPane2D extends JFrame{
 	*/
 	double [] resultVector = {0,0,1,1};
 
+	/**
+	*The image to draw on that contains the graph.
+	*/
 	final BufferedImage graphImage =  new BufferedImage(defaultWidth,defaultHeight,BufferedImage.TYPE_INT_ARGB);
+
+	/**
+	*Creates and adds a line to the drawing pane a line from point p1 to p2
+	*@param p1 The first endpoint of the line.
+	*@param p2 The last endpoint of the line.
+	*@return The integer id in the drawing pane of the line
+	*/
+	public int createLine(Point2D.Double p1, Point2D.Double p2){
+		return createLine(new ELine2D( translatePoint(p1), translatePoint(p2)));
+	}
+
+	/**
+	*Adds a line to the drawing pane
+	*@param line The line to be added to the drawing pane
+	*@return The integer id in the drawing pane of the line
+	*/
+	public int createLine(ELine2D line){
+		//Convert this line over
+		ELine2D newline = new ELine2D(translatePoint(line.getP1()),translatePoint(line.getP2()),(int)line.getWidth(),line.getColor());
+		thingsToDraw.add(newline);
+		return thingsToDraw.indexOf(newline);
+	}
+
 	/**
 	*Creates a Drawing Pane with the plane scaled to the desired width and height
 	*@param width The desire width of the pane
@@ -133,6 +165,11 @@ public class DrawingPane2D extends JFrame{
 
 				graph.paint(graph2D);
 
+				for(Component line : thingsToDraw){
+					System.out.println("DEBUG" + ((ELine2D)line).getX1() + " " + ((ELine2D)line).getY1() + " " + ((ELine2D)line).getX2() + " " + ((ELine2D)line).getY2());
+					((ELine2D)line).paint(graph2D);
+				}
+
 				graph.repaint();
 
 				graph2D.dispose();
@@ -140,7 +177,7 @@ public class DrawingPane2D extends JFrame{
 			}
 		};
 
-		Timer timer = new Timer(25,al);
+		Timer timer = new Timer(REFRESH_RATE,al);
 		timer.start();
 	}
 
@@ -195,24 +232,35 @@ public class DrawingPane2D extends JFrame{
 	}
 
 	
-
+	/**
+	*Inner class containing the cartesion graph display with axes.
+	*/
 	public class Graph extends JPanel{
-		
+		/**
+		*The color of the background of the graph.
+		*/
 		private final Color color = new Color(0,0,0,0);
 		
-
+		/**
+		*Storage for the axes
+		*/
 		Line2D.Double [] axis = new Line2D.Double[2];
 
+		/**
+		*Creates an instance of the graph. Using the outer class to determine screen parameters.
+		*/
 		public Graph(){
 			axis[0] = new Line2D.Double(translatePoint(0,-defaultHeight/2),translatePoint(0,defaultHeight/2));
 			axis[1] = new Line2D.Double(translatePoint(-defaultWidth/2,0), translatePoint(defaultWidth/2,0));
 			setBorder(BorderFactory.createLineBorder(Color.black));
 		}
 
+		@Override
 		public Dimension getPreferredSize() {
         	return new Dimension(defaultWidth,defaultHeight);
     	}
 
+    	@Override
 		public void paintComponent(Graphics g){
 			super.paintComponent(g);
 			Graphics2D g2 = (Graphics2D)g;
