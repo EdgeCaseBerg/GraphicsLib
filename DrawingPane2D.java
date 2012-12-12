@@ -253,11 +253,19 @@ public class DrawingPane2D extends JFrame{
 			setOpaque(true);
 		}
 
+		/**
+		*Retrieves the preffered size of this DrawingPane2D
+		*@return A Dimension object with the size of this DrawingPane2D
+		*/
 		@Override
 		public Dimension getPreferredSize() {
         	return new Dimension(defaultWidth,defaultHeight);
     	}
 
+    	/**
+    	*paints this component to the graphics g
+    	*@param g The graphics to paint on.
+    	*/
     	@Override
 		public void paintComponent(Graphics g){
 			super.paintComponent(g);
