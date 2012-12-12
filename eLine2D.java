@@ -7,7 +7,7 @@ import java.awt.*;
 import javax.swing.*;
 
 
-public class ELine2D extends Component{
+public class ELine2D extends Component implements EDrawable2D{
 	private final Color color;
 	private final BasicStroke width;
 	Line2D.Double line;
@@ -31,15 +31,21 @@ public class ELine2D extends Component{
 		line = new Line2D.Double(p.getX(),p.getY(),q.getX(),q.getY());
 		this.p = p;
 		this.q = q;
+		setVisible(true);
+		
+
 	}
 
-	public void paint(Graphics g){
+	public void paintComponent(Graphics g){
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
-		g2.setColor(color);
 		g2.setStroke(width);
+		g2.setColor(color);
+		g.fillRect(0, 0, getWidth(), getHeight());
 		g2.draw(line);
+		repaint();
 	}
+
 	public Point2D.Double getP1(){
 		return p;
 	}

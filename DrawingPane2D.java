@@ -28,7 +28,7 @@ import java.util.ArrayList;
 *@since 2012-12-11
 *
 * Defines a Cartesion 2D Space to write on.
-* Theme music for this project: http://endlessvideo.com/watch?v=t2ZRy71vivk
+* Theme music for this project: http://endlessvideo.com/watch?v=t2ZRy71vivk (Listened on first night for 5+ hours)
 */
 public class DrawingPane2D extends JFrame{
 
@@ -40,14 +40,14 @@ public class DrawingPane2D extends JFrame{
 	/**
 	*A list of things to be drawn. Until I can think of something speedier, we'll use an arraylist
 	*/
-	ArrayList<Component> thingsToDraw = new ArrayList<Component>();
+	ArrayList<EDrawable2D> thingsToDraw = new ArrayList<EDrawable2D>();
 
 	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	DrawingPane2D dp = new DrawingPane2D(100,100);
-            	dp.createLine(new ELine2D(0,76,45,45));
+            	DrawingPane2D dp = new DrawingPane2D(640,640);
+            	dp.createLine(new ELine2D(0,0,240,240));
             }
         });
 	}
@@ -139,7 +139,8 @@ public class DrawingPane2D extends JFrame{
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(new Dimension(defaultWidth,defaultHeight));
-	
+		
+
 		final Graph graph = new Graph();
 		
 		add(graph,BorderLayout.CENTER);
@@ -165,17 +166,13 @@ public class DrawingPane2D extends JFrame{
 
 				graph.paint(graph2D);
 
-				for(Component line : thingsToDraw){
-					System.out.println("DEBUG" + ((ELine2D)line).getX1() + " " + ((ELine2D)line).getY1() + " " + ((ELine2D)line).getX2() + " " + ((ELine2D)line).getY2());
-					((ELine2D)line).paint(graph2D);
-				}
-
 				graph.repaint();
 
 				graph2D.dispose();
 				repaint();
 			}
 		};
+		setLayout(null);
 
 		Timer timer = new Timer(REFRESH_RATE,al);
 		timer.start();
@@ -253,6 +250,7 @@ public class DrawingPane2D extends JFrame{
 			axis[0] = new Line2D.Double(translatePoint(0,-defaultHeight/2),translatePoint(0,defaultHeight/2));
 			axis[1] = new Line2D.Double(translatePoint(-defaultWidth/2,0), translatePoint(defaultWidth/2,0));
 			setBorder(BorderFactory.createLineBorder(Color.black));
+			setOpaque(true);
 		}
 
 		@Override
@@ -272,6 +270,9 @@ public class DrawingPane2D extends JFrame{
 			//Draw the Axis
 			for(int i = 0; i < 2; i++){
 				g2.draw(axis[i]);
+			}
+			for(int i = 0; i < thingsToDraw.size(); i++){
+				thingsToDraw.get(i).paintComponent(g2);
 			}
 			repaint();
 			//g2.dispose();			
