@@ -66,7 +66,7 @@ public class DrawingPane2D extends JFrame{
 	*/
 	double [][] transformationMatrix = {
 								{1,0,0,defaultWidth/2},
-								{0,1,0,defaultHeight/2},
+								{0,-1,0,defaultHeight/2},
 								{0,0,1,0},
 								{0,0,0,1}
 								};
