@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 /**
 *@author Ethan Eldridge <ejayeldridge @ gmail.com>
-*@version 0.0
+*@version 0.1
 *@since 2012-12-11
 *
 * Defines a Cartesion 2D Space to write on.
@@ -48,7 +48,8 @@ public class DrawingPane2D extends JFrame{
             public void run() {
             	DrawingPane2D dp = new DrawingPane2D(10,10);
             	dp.createLine(new ELine2D(1,1,24,24));
-            	dp.createPoint(new EPoint2D(1,2,5));
+            	dp.createPoint(new EPoint2D(-1,2,3));
+            	dp.createRectangle(new ERectangle2D(  new Point2D.Double(-1,-2),20,20));
             }
         });
 	}
@@ -111,9 +112,15 @@ public class DrawingPane2D extends JFrame{
 	public int createPoint(EPoint2D p){
 		EPoint2D newPoint = new EPoint2D(translatePoint(p.getPointX(),p.getPointY()),p.getWidth(),p.getColor());
 		thingsToDraw.add(newPoint);
-		
 		return thingsToDraw.indexOf(newPoint);
 	}
+
+	public int createRectangle(ERectangle2D r){
+		ERectangle2D translatedRect = new ERectangle2D(translatePoint(r.getTopLeft()),r.getRectWidth(),r.getRectHeight(),r.getBrushWidth(),r.getColor());
+		thingsToDraw.add(translatedRect);
+		return thingsToDraw.indexOf(translatedRect);
+	}
+
 
 	/**
 	*Creates a Drawing Pane with the plane scaled to the desired width and height
