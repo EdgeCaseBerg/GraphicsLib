@@ -25,7 +25,7 @@ public class EPoint2D extends Component implements EDrawable2D{
 	EPoint2D(Double x,Double y,int width, Color color){
 		this.color = color;
 		this.width = new BasicStroke(width);
-		point = new Ellipse2D.Double(x,y,width,width);
+		point = new Ellipse2D.Double(x-width/2.0,y-width/2.0,width,width);
 		setVisible(true);
 	}
 

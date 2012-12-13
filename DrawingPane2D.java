@@ -46,9 +46,9 @@ public class DrawingPane2D extends JFrame{
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	DrawingPane2D dp = new DrawingPane2D(640,640);
+            	DrawingPane2D dp = new DrawingPane2D(10,10);
             	dp.createLine(new ELine2D(1,1,24,24));
-            	dp.createPoint(new EPoint2D(20,-10,5));
+            	dp.createPoint(new EPoint2D(1,2,5));
             }
         });
 	}
@@ -111,7 +111,7 @@ public class DrawingPane2D extends JFrame{
 	public int createPoint(EPoint2D p){
 		EPoint2D newPoint = new EPoint2D(translatePoint(p.getPointX(),p.getPointY()),p.getWidth(),p.getColor());
 		thingsToDraw.add(newPoint);
-		System.out.println(newPoint.getPointX()+","+newPoint.getPointY());
+		
 		return thingsToDraw.indexOf(newPoint);
 	}
 
@@ -122,6 +122,10 @@ public class DrawingPane2D extends JFrame{
 	*/
 	public DrawingPane2D(int width, int height){
 		super("Drawing Pane");
+		//We want a graph with -width to +width and -height to +height so:
+		width *= 2.0;
+		height *= 2.0;
+
 		//Scale everything to stay within the size of the pane.
 		if(width < defaultWidth){
 			transformationMatrix[0][0] = defaultWidth/width;
@@ -203,6 +207,7 @@ public class DrawingPane2D extends JFrame{
 		//We do this because the first coordiante we'll check is x and we need
 		//It to reflect the wonderful exceptions along the axes
 		tempVector[2] = tempVector[0] == 0 ? 0 : x;
+		tempVector[3] = 1;
 	}
 
 	/**
@@ -227,6 +232,7 @@ public class DrawingPane2D extends JFrame{
 		for(int i = 0; i < tempVector.length; i++){
 			//We need this bit to deal with shifting points on the axes
 			tempVector[2] = tempVector[i] == 0 ? 0 : tempVector[i];
+			//tempVector[3] = tempVector[i] == 0 ? 0 : 1;
 			for(int j =0; j < tempVector.length; j++){
 				resultVector[i] += transformationMatrix[i][j]*tempVector[j];
 			}
@@ -235,6 +241,7 @@ public class DrawingPane2D extends JFrame{
 
 		return new Point2D.Double(resultVector[0],resultVector[1]);
 	}
+
 
 	
 	/**
