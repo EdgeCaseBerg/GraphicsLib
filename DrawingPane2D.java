@@ -109,12 +109,22 @@ public class DrawingPane2D extends JFrame{
 		return thingsToDraw.indexOf(newline);
 	}
 
+	/**
+	*Creates a point p on this drawing pane
+	*@param p The point to draw on this pane.
+	*@return The integer id in the drawing pane of this point
+	*/
 	public int createPoint(EPoint2D p){
 		EPoint2D newPoint = new EPoint2D(translatePoint(p.getPointX(),p.getPointY()),p.getWidth(),p.getColor());
 		thingsToDraw.add(newPoint);
 		return thingsToDraw.indexOf(newPoint);
 	}
 
+	/**
+	*Creates a rectangle on this drawing pane
+	*@param r The rectangle to draw on this pane
+	*@return The integer id in the drawing pane of this rectangle
+	*/
 	public int createRectangle(ERectangle2D r){
 		ERectangle2D translatedRect = new ERectangle2D(translatePoint(r.getTopLeft()),r.getRectWidth(),r.getRectHeight(),r.getBrushWidth(),r.getColor());
 		thingsToDraw.add(translatedRect);
