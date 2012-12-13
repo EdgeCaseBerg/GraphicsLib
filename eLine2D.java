@@ -44,7 +44,7 @@ public class ELine2D extends Component implements EDrawable2D{
 	*@param q The second endpoint
 	*/
 	ELine2D(Point2D.Double p, Point2D.Double q){
-		this(p,q,6,new Color(0,255,0,65));
+		this(p,q,6,new Color(0,0,0,255));
 	}
 	/**
 	*Defines a line with endpoints p and q, and width.
@@ -53,7 +53,7 @@ public class ELine2D extends Component implements EDrawable2D{
 	*@param width The width of the line, in pixels(?)
 	*/
 	ELine2D(Point2D.Double p, Point2D.Double q, int width){
-		this(p,q,width,new Color(0,255,0,54));
+		this(p,q,width,new Color(0,0,0,255));
 	}
 
 	/**

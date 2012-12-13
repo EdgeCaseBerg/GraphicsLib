@@ -20,21 +20,21 @@ public class EPoint2D extends Component implements EDrawable2D{
 
 	private final BasicStroke width;
 
-	private final Line2D.Double point;
+	private final Ellipse2D.Double point;
 
 	EPoint2D(Double x,Double y,int width, Color color){
 		this.color = color;
 		this.width = new BasicStroke(width);
-		point = new Line2D.Double(x,y,x,y);
+		point = new Ellipse2D.Double(x,y,width,width);
 		setVisible(true);
 	}
 
 	EPoint2D(double x, double y){
-		this(x,y,1,new Color(0,0,0,0));
+		this(x,y,1,new Color(0,0,0,255));
 	}
 
 	EPoint2D(double x, double y, int width){
-		this(x,y,width, new Color(0,0,0,0));
+		this(x,y,width, new Color(0,0,0,255));
 	}
 
 	EPoint2D(Point2D.Double p){
@@ -55,17 +55,16 @@ public class EPoint2D extends Component implements EDrawable2D{
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(width);
 		g2.setColor(color);
-		g2.fill(point);
 		g2.draw(point);
 		repaint();
 	}
 
 	public double getPointX(){
-		return point.getX1();
+		return point.getCenterX();
 	}
 
 	public double getPointY(){
-		return point.getY1();
+		return point.getCenterY();
 	} 
 
 	public int getWidth(){

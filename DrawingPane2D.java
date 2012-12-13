@@ -46,9 +46,9 @@ public class DrawingPane2D extends JFrame{
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	DrawingPane2D dp = new DrawingPane2D(64,64);
+            	DrawingPane2D dp = new DrawingPane2D(640,640);
             	dp.createLine(new ELine2D(1,1,24,24));
-            	dp.createPoint(new EPoint2D(10,10,10));
+            	dp.createPoint(new EPoint2D(20,-10,5));
             }
         });
 	}
@@ -111,6 +111,7 @@ public class DrawingPane2D extends JFrame{
 	public int createPoint(EPoint2D p){
 		EPoint2D newPoint = new EPoint2D(translatePoint(p.getPointX(),p.getPointY()),p.getWidth(),p.getColor());
 		thingsToDraw.add(newPoint);
+		System.out.println(newPoint.getPointX()+","+newPoint.getPointY());
 		return thingsToDraw.indexOf(newPoint);
 	}
 
@@ -281,7 +282,7 @@ public class DrawingPane2D extends JFrame{
 			g2.setColor(color);
 			g2.fillRect(0,0,defaultWidth,defaultHeight);
 			g2.setStroke(new BasicStroke(4));
-			g2.setColor(new Color(0,0,0,255));
+			g2.setColor(new Color(0,0,0,140));
 			//Draw the Axis
 			for(int i = 0; i < 2; i++){
 				g2.draw(axis[i]);
