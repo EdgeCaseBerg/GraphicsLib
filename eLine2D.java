@@ -8,7 +8,7 @@ import javax.swing.*;
 
 /**
 *@author Ethan Eldridge <ejayeldridge @ gmail.com>
-*@version 0.0
+*@version 0.1
 *@since 2012-12-11
 *
 * Defines simple 2D line that is drawable onto a DrawingPane2D
@@ -82,32 +82,63 @@ public class ELine2D extends Component implements EDrawable2D{
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(width);
 		g2.setColor(color);
-		g.fillRect(0, 0, getWidth(), getHeight());
 		g2.draw(line);
 		repaint();
 	}
 
+	/**
+	*Gets the first endpoint of the line
+	*@return The first endpoint of this line
+	*/
 	public Point2D.Double getP1(){
 		return (Point2D.Double)line.getP1();
 	}
+	/**
+	*Gets the second endpoint of the line
+	*@return The second endpoint of this line
+	*/
 	public Point2D.Double getP2(){
 		return (Point2D.Double)line.getP2();
 	}
+	/**
+	*Get's the first endpoints x coordinate
+	*@return The x coordinate of the first endpoint
+	*/
 	public double getX1(){
 		return line.getX1();
 	}
+	/**
+	*Get's the first endpoints y coordinate
+	*@return The y coordinate of the first endpoint
+	*/
 	public double getY1(){
 		return line.getY1();
 	}
+	/**
+	*Get the second endpoints x coordinate
+	*@return The x coordinate of the second endpoint
+	*/
 	public double getX2(){
 		return line.getX2();
 	}
+	/**
+	*Gets the second endpoints y coordinate
+	*@return The y coordinate of the second endpoint
+	*/
 	public double getY2(){
 		return line.getY2();
 	}
+	/**
+	*Gets the Color of this line
+	*@return The color of the line
+	*/
 	public Color getColor(){
 		return color;
 	}
+	/**
+	*Gets the width of this line
+	*@return The width of the line
+	*/
 	public int getWidth(){
 		return (int)width.getLineWidth();
 	}

@@ -46,8 +46,9 @@ public class DrawingPane2D extends JFrame{
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	DrawingPane2D dp = new DrawingPane2D(640,640);
-            	dp.createLine(new ELine2D(0,0,240,240));
+            	DrawingPane2D dp = new DrawingPane2D(64,64);
+            	dp.createLine(new ELine2D(1,1,24,24));
+            	dp.createPoint(new EPoint2D(10,10,10));
             }
         });
 	}
@@ -107,6 +108,12 @@ public class DrawingPane2D extends JFrame{
 		return thingsToDraw.indexOf(newline);
 	}
 
+	public int createPoint(EPoint2D p){
+		EPoint2D newPoint = new EPoint2D(translatePoint(p.getPointX(),p.getPointY()),p.getWidth(),p.getColor());
+		thingsToDraw.add(newPoint);
+		return thingsToDraw.indexOf(newPoint);
+	}
+
 	/**
 	*Creates a Drawing Pane with the plane scaled to the desired width and height
 	*@param width The desire width of the pane
@@ -121,9 +128,9 @@ public class DrawingPane2D extends JFrame{
 			transformationMatrix[0][0] = width/defaultWidth;
 		}
 		if(height < defaultHeight){
-			transformationMatrix[1][1] = defaultHeight/height;
+			transformationMatrix[1][1] = -defaultHeight/height;
 		}else if(height > defaultHeight){
-			transformationMatrix[1][1] = height/defaultHeight;
+			transformationMatrix[1][1] = -height/defaultHeight;
 		}
 		transformationMatrix[0][2] = transformationMatrix[0][0];
 		transformationMatrix[1][2] = transformationMatrix[1][1];
