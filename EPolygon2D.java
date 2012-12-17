@@ -28,6 +28,9 @@ public class EPolygon2D extends Component implements EDrawable2D{
 	*/
 	private final Path2D.Double poly;
 
+	private double[] xpath;
+	private double[] ypath;
+
 	public EPolygon2D(double [] xpoints, double [] ypoints, int width, Color color){
 		poly = new Path2D.Double();
 		if(xpoints.length!= ypoints.length){
@@ -47,7 +50,17 @@ public class EPolygon2D extends Component implements EDrawable2D{
 		}
 		this.color = color;
 		this.width = new BasicStroke(width);
+		this.xpath = xpoints;
+		this.ypath = ypoints;
 		setVisible(true);
+	}
+
+	public double[] getXPath(){
+		return xpath;
+	}
+
+	public double[] getYPath(){
+		return ypath;
 	}
 
 	

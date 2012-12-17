@@ -20,10 +20,6 @@ import java.awt.Dimension;
 */
 public class DrawingPane3D extends JFrame{
 
-	/**
-	*The line where perspective should taper off to. Variable for different views
-	*/
-	protected double horizonline = width/3.0;
 	
 	/**
 	*The actual width of the drawing panel
@@ -33,6 +29,10 @@ public class DrawingPane3D extends JFrame{
 	*The actual height of the drawing panel
 	*/
 	protected final int defaultHeight = 640;
-
+	/**
+	*The line where perspective should taper off to. Variable for different views
+	*/
+	protected double horizonline = defaultWidth/3.0;
+	
 
 }

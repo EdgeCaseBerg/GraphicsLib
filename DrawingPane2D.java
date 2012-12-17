@@ -50,6 +50,7 @@ public class DrawingPane2D extends JFrame{
             	dp.createLine(new ELine2D(1,1,24,24));
             	dp.createPoint(new EPoint2D(-1,2,3));
             	dp.createRectangle(new ERectangle2D(  new Point2D.Double(-1,-2),20,20));
+            	dp.createPolygon(new EPolygon2D(new double[]{4.0,3.0,2.0,3.0},new double[]{4.0,5.0,4.0,2.0},6,Color.red));
             }
         });
 	}
@@ -57,16 +58,16 @@ public class DrawingPane2D extends JFrame{
 	/**
 	*The actual width of the drawing panel
 	*/
-	final int defaultWidth = 640;
+	protected final int defaultWidth = 640;
 	/**
 	*The actual height of the drawing panel
 	*/
-	final int defaultHeight = 640;
+	protected final int defaultHeight = 640;
 
 	/**
 	*The transformation matrix to change user defined coordinate system to the screen coordinates
 	*/
-	double [][] transformationMatrix = {
+	protected double [][] transformationMatrix = {
 								{1,0,0,defaultWidth/2},
 								{0,-1,0,defaultHeight/2},
 								{0,0,1,0},
@@ -131,6 +132,19 @@ public class DrawingPane2D extends JFrame{
 		return thingsToDraw.indexOf(translatedRect);
 	}
 
+	public int createPolygon(EPolygon2D p){
+		double [] newxpath = p.getXPath();
+		double [] newypath = p.getYPath();
+		Point2D.Double temp;
+		for(int i = 0; i < newypath.length; i++){
+			temp = translatePoint(newxpath[i], newypath[i]);
+			newxpath[i] = temp.getX();
+			newypath[i] = temp.getY();
+		}
+		EPolygon2D translatedPoly = new EPolygon2D(newxpath,newypath,p.getWidth(),p.getColor());
+		thingsToDraw.add(translatedPoly);
+		return thingsToDraw.indexOf(translatedPoly);
+	}
 
 	/**
 	*Creates a Drawing Pane with the plane scaled to the desired width and height
