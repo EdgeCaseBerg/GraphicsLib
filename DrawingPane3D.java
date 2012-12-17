@@ -14,7 +14,7 @@ import java.awt.Dimension;
 *@version 0.0
 *@since 2012-12-16
 *
-* Defines a Cartesion 3D Space to draw on
+* Defines a 3D space that has a horizon line to shrink objects to. (This is going to be much harder)
 * Theme music for this project: http://endlessvideo.com/watch?v=t2ZRy71vivk (Listened on first night for 5+ hours)
 * http://en.wikipedia.org/wiki/3D_projection for help with matrices and such
 */

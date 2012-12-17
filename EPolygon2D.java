@@ -55,6 +55,26 @@ public class EPolygon2D extends Component implements EDrawable2D{
 		setVisible(true);
 	}
 
+	public EPolygon2D(Point2D.Double [] points, int width, Color color){
+		this(getXList(points),getYList(points),width,color);
+	}
+
+	public static double [] getYList(Point2D.Double []points){
+		double [] yps = new double[points.length];
+		for(int i=0; i < points.length; i++){
+			yps[i] = points[i].getY();
+		}
+		return yps;
+	}
+
+	public static double [] getXList(Point2D.Double []points){
+		double [] xps = new double[points.length];
+		for(int i=0; i < points.length; i++){
+			xps[i] = points[i].getX();
+		}
+		return xps;
+	}
+
 	public double[] getXPath(){
 		return xpath;
 	}
